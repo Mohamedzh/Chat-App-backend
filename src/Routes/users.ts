@@ -1,9 +1,10 @@
 import Router, { NextFunction, Request, Response } from 'express'
-import { User } from '../entities/user'
+import { User } from '../Entities/user'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { config } from 'dotenv'
 import { middleware } from './middleware'
+import { Post } from '../Entities/post'
 
 const router = Router()
 config()
@@ -85,6 +86,16 @@ router.post('/logintoken', async (req, res) => {
     }
 })
 
+//Get a user's post
+router.post('/posts',middleware, async(req,res)=>{
+    res.send(req.body.user.posts)
+})
+
+//Get all posts from all users to 1 loggedIn user
+router.post('/allposts',middleware, async(req,res)=>{
+    const posts = Post.find
+    res.send(posts)
+})
 
 export default router
 

@@ -2,7 +2,7 @@ import {
   BaseEntity,
   Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn
 } from "typeorm"
-import { User } from "./User"
+import { User } from "./user"
 import { Message } from "./Message"
 
 
@@ -23,8 +23,8 @@ export class Conversation extends BaseEntity {
   })
   updatedAt: Date
 
-  @ManyToMany(() => User, user => user.conversation)
-  user: User
+  @ManyToMany(() => User, user => user.conversations)
+  users: User[]
 
   @OneToMany(() => Message, message => message.conversation)
   message: Message

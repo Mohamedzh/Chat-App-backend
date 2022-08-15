@@ -1,17 +1,18 @@
-//import express, { json, Router, urlencoded } from 'express';
-import express, { json, urlencoded } from "express"
-import { config } from "dotenv";
-import helmet from "helmet";
-import morgan from "morgan";
-import cors from "cors"
-import userRouter from "./routes/users"
-import postRouter from "./routes/messages"
+import express, { json, urlencoded } from 'express';
+import { config } from 'dotenv';
+import cors from 'cors';
+import morgan from 'morgan';
+import helmet from 'helmet';
+import "reflect-metadata";
 import { AppDataSource } from './data-source';
+import userRouter from './routes/users'
+import messageRouter from './routes/messages'
 
 
 
 const app = express()
-config()
+
+config();
 app.use(cors());
 app.use(morgan("dev"));
 app.use(helmet());
@@ -20,7 +21,7 @@ app.use(urlencoded({ extended: false }));
 
 
 app.use("/user", userRouter)
-app.use("/post", postRouter)
+app.use("/post", messageRouter)
 
 
 app.get("*", (req, res) => {
@@ -33,12 +34,10 @@ app.listen(process.env.PORT, async () => {
   console.log(`listing on ${process.env.PORT} port`);
 
   try {
-    await AppDataSource.initialize()
-    console.log("connected to the database");
-
+    await AppDataSource.initialize(),
+      console.log('DB connection established')
   } catch (error) {
-    console.log("conection Not Valid");
-    console.log(error);
+    throw new Error(`error occured ${error as Error}`)
   }
 })
 

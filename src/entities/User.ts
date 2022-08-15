@@ -1,47 +1,39 @@
-import {
-  BaseEntity,
-  Column, CreateDateColumn, Entity, JoinTable, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn
-} from "typeorm"
-import { Conversation } from "./Conversation"
-import { Message } from "./Message"
-
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, OneToMany, ManyToMany, JoinTable } from "typeorm"
+import { Conversation } from "./Conversation";
+import { Message } from "./Message";
 
 @Entity()
 export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
-  id: number
+  id: number;
 
   @Column()
-  firstName: string
+  firstName: string;
 
   @Column()
-  lastName: string
+  lastName: string;
 
   @Column({ unique: true })
-  email: string
+  email: string;
 
   @Column()
-  password: string
+  password: string;
 
-  @CreateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)"
-  })
-  createdAt: Date
+  @CreateDateColumn({ type: "timestamptz" })
+  createdAt: Date;
 
   @UpdateDateColumn({
-    type: "timestamp",
-    default: () => "CURRENT_TIMESTAMP(6)"
+    type: "timestamptz",
+    onUpdate: "CURRENT_TIMESTAMPTZ"
   })
-  updatedAt: Date
+  updatedAt: Date;
 
-  @OneToMany(() => Message, messages => messages.user)
+  @OneToMany(() => Message, message => message.user)
   messages: Message[]
 
-  @ManyToMany(() => Conversation, conversation => conversation.user)
+  @ManyToMany(() => Conversation, conversation => conversation.users)
   @JoinTable()
-  conversation: Conversation
+  conversations: Conversation[]
 
 }
-
 

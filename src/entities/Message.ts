@@ -3,7 +3,7 @@ import {
   Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn
 } from "typeorm"
 import { Conversation } from "./Conversation"
-import { User } from "./User"
+import { User } from "./user"
 
 
 @Entity()
