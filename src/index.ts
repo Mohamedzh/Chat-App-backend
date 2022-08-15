@@ -5,9 +5,8 @@ import morgan from 'morgan';
 import helmet from 'helmet';
 import "reflect-metadata";
 import { AppDataSource } from './data-source';
-import userRouter from './routes/users'
-import messageRouter from './routes/messages'
-
+import userRouter from './Routes/users'
+import messageRouter from './Routes/messages'
 
 
 const app = express()

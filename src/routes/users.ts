@@ -1,5 +1,5 @@
 import Router, { NextFunction, Request, Response } from 'express'
-import { User } from '../entities/user'
+import { User } from '../Entities/user'
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { config } from 'dotenv'
@@ -41,7 +41,7 @@ router.get('/', async (req, res) => {
 })
 
 //Login to a specific user
-router.post('/login', async (req, res) => {
+router.post('/signin', async (req, res) => {
     try {
         const { email, password } = req.body
         const currentUser = await User.findOne({ where: { email } })
@@ -64,7 +64,7 @@ interface decodedJwt extends jwt.JwtPayload {
     email?: string
 }
 //re-login using the token created and get user details
-router.post('/logintoken', async (req, res) => {
+router.post('/details', async (req, res) => {
     try {
         const { token } = req.body
         const { email } = jwt.verify(token, process.env.JWT_SECRET!) as { email: string }
@@ -84,7 +84,6 @@ router.post('/logintoken', async (req, res) => {
         res.status(500).send(error)
     }
 })
-
 
 export default router
 

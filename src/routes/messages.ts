@@ -1,6 +1,6 @@
 import { Router } from "express";
 import { meddleware } from "./meddleware";
-import { Message } from "../entities/Message";
+import { Message } from "../Entities/message";
 
 
 
