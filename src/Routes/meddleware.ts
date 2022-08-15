@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
-import { User } from "../entities/user";
+import { User } from "../Entities/user";
 
 export const meddleware = async (req: Request, res: Response, next: NextFunction) => {
 

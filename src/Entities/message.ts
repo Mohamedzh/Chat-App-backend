@@ -2,7 +2,7 @@ import {
   BaseEntity,
   Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn
 } from "typeorm"
-import { Conversation } from "./Conversation"
+import { Conversation } from "./conversation"
 import { User } from "./user"
 
 
