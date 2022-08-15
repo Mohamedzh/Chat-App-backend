@@ -4,7 +4,6 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { config } from 'dotenv'
 import { middleware } from './middleware'
-import { Message } from '../Entities/message'
 
 const router = Router()
 config()
