@@ -4,9 +4,9 @@ import cors from 'cors';
 import morgan from 'morgan';
 import helmet from 'helmet';
 import "reflect-metadata";
-import AppDataSource from './data-source';
-import userRouter from './Routes/users'
-import postRouter from './Routes/posts'
+import { AppDataSource } from './data-source';
+import userRouter from './routes/users'
+import messageRouter from './routes/messages'
 
 
 
@@ -18,16 +18,27 @@ app.use(morgan("dev"));
 app.use(helmet());
 app.use(json());
 app.use(urlencoded({ extended: false }));
-app.use('/user', userRouter)
-app.use('/post', postRouter)
 
 
-app.listen(process.env.port, async ()=>{
-    console.log(`listening on port ${process.env.port}`)
-    try {
-        await AppDataSource.initialize(),
-        console.log('DB connection established')
-    } catch (error) {
-        throw new Error(`error occured ${error as Error}`)
-    }
-} )
+app.use("/user", userRouter)
+app.use("/post", messageRouter)
+
+
+app.get("*", (req, res) => {
+  res.status(404).json({
+    msg: "Erorr 404"
+  })
+})
+
+app.listen(process.env.PORT, async () => {
+  console.log(`listing on ${process.env.PORT} port`);
+
+  try {
+    await AppDataSource.initialize(),
+      console.log('DB connection established')
+  } catch (error) {
+    throw new Error(`error occured ${error as Error}`)
+  }
+})
+
+
