@@ -1,22 +1,25 @@
-import { config } from "dotenv";
 import { DataSource } from "typeorm";
-import { Message } from "./Entities/message";
+import "reflect-metadata"
+import { config } from "dotenv";
 import { User } from "./Entities/user";
+import { Message } from "./Entities/message";
 import { Conversation } from "./Entities/conversation";
 
-config()
-const AppDataSource = new DataSource({
-    type: "postgres",
-    host: process.env.pghost,
-    port: Number(process.env.pgport),
-    username: process.env.pguser,
-    password: process.env.pgpassword,
-    database: process.env.database,
-    synchronize: true,
-    logging: false,
-    entities: [User, Message, Conversation],
-    migrations: ["migration/*.ts"],
-    subscribers: [],
-})
 
-export default AppDataSource;
+
+
+config()
+export const AppDataSource = new DataSource({
+  type: "postgres",
+  host: process.env.PGHOST,
+  port: 5432,
+  username: process.env.postgres,
+  password: process.env.PGPASSWORD,
+  database: "postgres",
+  synchronize: true,
+  logging: false,
+  entities: [User, Message, Conversation],
+  migrations: ["migrations/*.ts"],
+  subscribers: [],
+
+});
