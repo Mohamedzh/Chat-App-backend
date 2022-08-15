@@ -1,7 +1,8 @@
 import { config } from "dotenv";
 import { DataSource } from "typeorm";
-import { Post } from "./Entities/post";
+import { Message } from "./Entities/message";
 import { User } from "./Entities/user";
+import { Conversation } from "./Entities/conversation";
 
 config()
 const AppDataSource = new DataSource({
@@ -13,7 +14,7 @@ const AppDataSource = new DataSource({
     database: process.env.database,
     synchronize: true,
     logging: false,
-    entities: [User, Post],
+    entities: [User, Message, Conversation],
     migrations: ["migration/*.ts"],
     subscribers: [],
 })

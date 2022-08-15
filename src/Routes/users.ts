@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { config } from 'dotenv'
 import { middleware } from './middleware'
-import { Post } from '../Entities/post'
+import { Message } from '../Entities/message'
 
 const router = Router()
 config()
@@ -42,7 +42,7 @@ router.get('/', async (req, res) => {
 })
 
 //Login to a specific user
-router.post('/login', async (req, res) => {
+router.post('/signin', async (req, res) => {
     try {
         const { email, password } = req.body
         const currentUser = await User.findOne({ where: { email } })
@@ -65,7 +65,7 @@ interface decodedJwt extends jwt.JwtPayload {
     email?: string
 }
 //re-login using the token created and get user details
-router.post('/logintoken', async (req, res) => {
+router.post('/details', async (req, res) => {
     try {
         const { token } = req.body
         const { email } = jwt.verify(token, process.env.JWT_SECRET!) as { email: string }
@@ -84,17 +84,6 @@ router.post('/logintoken', async (req, res) => {
     } catch (error) {
         res.status(500).send(error)
     }
-})
-
-//Get a user's post
-router.post('/posts',middleware, async(req,res)=>{
-    res.send(req.body.user.posts)
-})
-
-//Get all posts from all users to 1 loggedIn user
-router.post('/allposts',middleware, async(req,res)=>{
-    const posts = Post.find
-    res.send(posts)
 })
 
 export default router

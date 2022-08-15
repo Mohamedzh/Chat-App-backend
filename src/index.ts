@@ -6,7 +6,7 @@ import helmet from 'helmet';
 import "reflect-metadata";
 import AppDataSource from './data-source';
 import userRouter from './Routes/users'
-import postRouter from './Routes/posts'
+import postRouter from './Routes/messages'
 
 
 
