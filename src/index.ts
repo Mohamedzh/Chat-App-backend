@@ -9,7 +9,6 @@ import userRouter from './Routes/users'
 import messageRouter from './Routes/messages'
 
 
-
 const app = express()
 
 config();

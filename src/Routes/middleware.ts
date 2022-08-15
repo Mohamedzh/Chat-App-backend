@@ -7,6 +7,7 @@ export const middleware = async (req: Request, res: Response, next: NextFunction
   try {
 
     if (!token) {
+
       return res.status(404).send("A token is required");
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET!)

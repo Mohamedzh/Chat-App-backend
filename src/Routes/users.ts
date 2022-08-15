@@ -1,4 +1,4 @@
-import { Router } from "express";
+import  Router  from "express";
 import { User } from "../Entities/user";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
@@ -70,9 +70,6 @@ router.post("/signin", async (req, res) => {
 router.post("/signinwithtoken", meddleware, async (req, res) => {
   try {
     const { token } = req.body
-
-
-
 
     /////////////////////////////////////////////////////////////////////////////////
     // const verifyToken = jwt.verify(token, process.env.PRIVAT_KEY!)

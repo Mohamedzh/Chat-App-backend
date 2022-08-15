@@ -1,35 +1,27 @@
-import {
-  BaseEntity,
-  Column, CreateDateColumn, Entity, ManyToMany, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn
-} from "typeorm"
-import { Conversation } from "./conversation"
-import { User } from "./user"
-
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne } from "typeorm"
+import { Conversation } from "./conversation";
+import { User } from "./user";
 
 @Entity()
 export class Message extends BaseEntity {
-  @PrimaryGeneratedColumn()
-  id: number
+    @PrimaryGeneratedColumn()
+    id: number;
 
-  @Column()
-  body: string
+    @Column()
+    body: string;
 
-  @CreateDateColumn({
-    type: "timestamptz",
-    default: () => "CURRENT_TIMESTAMP(6)"
-  })
-  createdAt: Date
+    @CreateDateColumn({ type: "timestamptz" })
+    createdAt: Date;
 
-  @UpdateDateColumn({
-    type: "timestamptz",
-    default: () => "CURRENT_TIMESTAMP(6)"
-  })
-  updatedAt: Date
+    @UpdateDateColumn({
+        type: "timestamptz",
+        onUpdate: "CURRENT_TIMESTAMPTZ"
+    })
+    updatedAt: Date;
 
-  @ManyToOne(() => User, user => user.messages)
-  user: User
+    @ManyToOne(() => User, user => user.messages, { nullable: false })
+    user: User
 
-  @ManyToOne(() => Conversation, conversation => conversation.message)
-  conversation: Conversation
+    @ManyToOne(() => Conversation, conversation => conversation.messages, { nullable: false })
+    conversation: Conversation
 }
-
