@@ -1,6 +1,6 @@
 import { NextFunction, Response, Request } from "express";
 import jwt from 'jsonwebtoken'
-import { User } from "../entities/user";
+import { User } from "../Entities/user";
 
 export const middleware = async (req: Request, res: Response, next: NextFunction) => {
   const { token } = req.body
