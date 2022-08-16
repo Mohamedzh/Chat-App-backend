@@ -41,7 +41,7 @@ app.get("*", (req, res) => {
 
 
 app.listen(process.env.PORT, async () => {
-  console.log(`listing on ${process.env.PORT} port`);
+  console.log(`listening on port ${process.env.PORT} `);
 
   try {
     await AppDataSource.initialize(),
