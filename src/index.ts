@@ -7,9 +7,13 @@ import "reflect-metadata";
 import { AppDataSource } from './data-source';
 import userRouter from './Routes/users'
 import messageRouter from './Routes/messages'
+import http from "http";
+import { Server } from "socket.io";
 
 
 const app = express()
+
+
 
 config();
 app.use(cors());
@@ -19,8 +23,11 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 
 
+
 app.use("/user", userRouter)
-app.use("/post", messageRouter)
+app.use("/messages", messageRouter)
+
+
 
 
 app.get("*", (req, res) => {
@@ -28,6 +35,10 @@ app.get("*", (req, res) => {
     msg: "Erorr 404"
   })
 })
+
+
+
+
 
 app.listen(process.env.PORT, async () => {
   console.log(`listing on ${process.env.PORT} port`);
@@ -41,3 +52,47 @@ app.listen(process.env.PORT, async () => {
 })
 
 
+
+
+////////////////////////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+const server = http.createServer(app)
+server.listen(3131, () => {
+  console.log("server is running");
+
+})
+
+
+const io = new Server(server, {
+  cors: {
+    origin: "*"
+  }
+})
+
+
+io.on("connection", (socket) => {
+  console.log("userconnected");
+
+  socket.on("newMessage", (arg) => {
+    console.log(arg);
+
+    socket.emit("userMessage", arg)
+  })
+
+  // socket.on("connection", (...arg) => {
+  //   console.log(arg);
+
+  // })
+
+  socket.on("disconnect", () => {
+    console.log("user disconnected");
+
+  })
+
+
+})

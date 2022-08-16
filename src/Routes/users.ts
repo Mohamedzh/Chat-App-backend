@@ -1,4 +1,4 @@
-import  Router  from "express";
+import Router from "express";
 import { User } from "../Entities/user";
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken";
@@ -44,7 +44,7 @@ router.post("/signin", async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ where: { email }, relations: { messages: true } })
     if (!user) {
-      return res.status(404).send("User not found")
+      return res.send("User not found")
     }
 
     const compareResult = await bcrypt.compare(password, user.password)
