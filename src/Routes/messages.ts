@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { meddleware } from "./meddleware";
 import { Message } from "../Entities/message";
+import { User } from "../Entities/user";
 
 
 
@@ -10,10 +11,11 @@ const router = Router()
 
 router.post("/", meddleware, async (req, res) => {
   try {
-    const { user, body } = req.body
-    const message = Message.create({ body, user })
+    const { userName, body } = req.body
+    const currentUser = await User.findOne({where:{firstName:userName}})
+    const message = Message.create({ body, user:currentUser!})
     await message.save()
-    res.send(user)
+    res.send(currentUser)
   } catch (error) {
     res.status(500).send(error)
   }

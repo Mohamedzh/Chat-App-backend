@@ -8,8 +8,34 @@ import { AppDataSource } from './data-source';
 import userRouter from './Routes/users'
 import messageRouter from './Routes/messages'
 
-
+import * as http from 'http';
+import { Server } from 'socket.io';
 const app = express()
+
+const server = http.createServer(app)
+server.listen(3131, () => {
+  console.log('server is listening on port 3131')
+})
+const io = new Server(server,
+  {
+    cors: {
+      origin: ['http://localhost:3000'],
+      allowedHeaders: ["my-custom-header"],
+      credentials: true
+    }
+  }
+)
+
+io.on('connection', socket => { 
+  console.log(`new connection with socket ${socket}`) 
+  socket.on('newMessage', (args)=> {
+  console.log(args),
+  socket.emit('sendMessage', args)
+}
+  )
+})
+
+
 
 config();
 app.use(cors());
@@ -29,8 +55,10 @@ app.get("*", (req, res) => {
   })
 })
 
+
+
 app.listen(process.env.PORT, async () => {
-  console.log(`listing on ${process.env.PORT} port`);
+  console.log(`listening on port ${process.env.PORT} `);
 
   try {
     await AppDataSource.initialize(),
