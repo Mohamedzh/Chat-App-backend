@@ -12,8 +12,8 @@ const router = Router()
 router.post("/", async (req, res) => {
   try {
     const { userName, body } = req.body
-    const currentUser = await User.findOne({where:{firstName:userName}})
-    const message = Message.create({ body, user:currentUser!})
+    const currentUser = await User.findOne({ where: { firstName: userName } })
+    const message = Message.create({ body, user: currentUser! })
     await message.save()
     res.send(currentUser)
   } catch (error) {

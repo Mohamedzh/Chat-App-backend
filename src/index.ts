@@ -42,6 +42,7 @@ app.use(json());
 app.use(urlencoded({ extended: false }));
 
 
+
 app.use("/user", userRouter)
 app.use("/messages", messageRouter)
 
@@ -51,6 +52,8 @@ app.get("*", (req, res) => {
     msg: "Erorr 404"
   })
 })
+
+
 
 
 
@@ -64,5 +67,6 @@ app.listen(process.env.PORT, async () => {
     throw new Error(`error occured ${error as Error}`)
   }
 })
+
 
 
