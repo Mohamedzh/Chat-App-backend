@@ -80,7 +80,7 @@ router.post("/signinwithtoken", meddleware, async (req, res) => {
         }
 
 
-        const user = await User.findOne({ where: { email } })
+        const user = await User.findOne({ where: { email }, relations: { messages: true }})
         console.log(user);
 
         res.send(user)
