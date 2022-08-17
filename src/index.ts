@@ -7,6 +7,7 @@ import "reflect-metadata";
 import { AppDataSource } from './data-source';
 import userRouter from './Routes/users'
 import messageRouter from './Routes/messages'
+import conversationRouter from "./Routes/conversations"
 
 import * as http from 'http';
 import { Server } from 'socket.io';
@@ -47,6 +48,8 @@ app.use(urlencoded({ extended: false }));
 
 app.use("/user", userRouter)
 app.use("/messages", messageRouter)
+app.use("/conversations", conversationRouter)
+
 
 
 app.get("*", (req, res) => {
