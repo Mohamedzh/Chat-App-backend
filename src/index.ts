@@ -8,10 +8,8 @@ import { AppDataSource } from './data-source';
 import userRouter from './Routes/users'
 import messageRouter from './Routes/messages'
 import conversationRouter from "./Routes/conversations"
-
 import * as http from 'http';
 import { Server } from 'socket.io';
-import { Message } from './Entities/message';
 const app = express()
 
 const server = http.createServer(app)
@@ -32,6 +30,7 @@ io.on('connection', socket => {
   socket.on('newMessage', (args) =>
     io.emit('sendMessage', { ...args, createdAt: Date.now() }))
 
+ // socket.to("room 1").emit("roomMessage", socket)
 
 })
 
