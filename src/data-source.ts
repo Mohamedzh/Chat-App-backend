@@ -4,6 +4,7 @@ import { config } from "dotenv";
 import { User } from "./Entities/user";
 import { Message } from "./Entities/message";
 import { Conversation } from "./Entities/conversation";
+import { Chat } from "./Entities/chat";
 
 
 
@@ -18,7 +19,7 @@ export const AppDataSource = new DataSource({
   database: "postgres",
   synchronize: true,
   logging: false,
-  entities: [User, Message, Conversation],
+  entities: [User, Message, Conversation, Chat],
   migrations: ["migrations/*.ts"],
   subscribers: [],
 
