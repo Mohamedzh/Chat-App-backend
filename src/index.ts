@@ -7,11 +7,30 @@ import "reflect-metadata";
 import { AppDataSource } from './data-source';
 import userRouter from './Routes/users'
 import messageRouter from './Routes/messages'
-import http from "http";
-import { Server } from "socket.io";
 
-
+import * as http from 'http';
+import { Server } from 'socket.io';
+import { Message } from './Entities/message';
 const app = express()
+
+const server = http.createServer(app)
+server.listen(3131, () => {
+  console.log('server is listening on port 3131')
+})
+const io = new Server(server,
+  {
+    cors: {
+      origin: ['http://localhost:3000'],
+      allowedHeaders: ["my-custom-header"],
+    }
+  }
+)
+
+io.on('connection', socket => {
+  console.log(`new connection with socket`)
+  socket.on('newMessage', (args) =>
+    io.emit('sendMessage', { ...args, createdAt: Date.now() }))
+})
 
 
 
@@ -26,8 +45,6 @@ app.use(urlencoded({ extended: false }));
 
 app.use("/user", userRouter)
 app.use("/messages", messageRouter)
-
-
 
 
 app.get("*", (req, res) => {
@@ -53,46 +70,3 @@ app.listen(process.env.PORT, async () => {
 
 
 
-
-////////////////////////////////////////////////////////////////////////////////////
-
-
-
-
-
-
-const server = http.createServer(app)
-server.listen(3131, () => {
-  console.log("server is running");
-
-})
-
-
-const io = new Server(server, {
-  cors: {
-    origin: "*"
-  }
-})
-
-
-io.on("connection", (socket) => {
-  console.log("userconnected");
-
-  socket.on("newMessage", (arg) => {
-    console.log(arg);
-
-    socket.emit("userMessage", arg)
-  })
-
-  // socket.on("connection", (...arg) => {
-  //   console.log(arg);
-
-  // })
-
-  socket.on("disconnect", () => {
-    console.log("user disconnected");
-
-  })
-
-
-})

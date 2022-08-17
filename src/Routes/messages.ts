@@ -24,7 +24,7 @@ router.post("/", async (req, res) => {
 
 router.get("/all", async (req, res) => {
   try {
-    const messages = await Message.find({ relations: { user: true } })
+    const messages = await Message.find({relations:{user:true}})
     res.send(messages)
 
   } catch (error) {
