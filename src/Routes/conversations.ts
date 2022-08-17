@@ -11,23 +11,28 @@ const router = Router()
 
 
 
+// get all conversations
+
 router.get("/", async (req, res) => {
     try {
-        const conversations = await Conversation.find({ relations: { chats: true } })
+        const conversations = await Conversation.find({ relations: { messages: { user: true } } })
         res.send(conversations)
     } catch (error) {
         res.status(500).send(error)
     }
 })
+
 //Create a new conversation
 router.post('/', async (req, res) => {
     try {
-        const userIds = req.body.userIds
+        const { userIds } = req.body
         const conversation = Conversation.create()
         await conversation.save()
 
+        const conversationId = conversation.id
         for (let i = 0; i < userIds.length; i++) {
-            const chat = Chat.create({conversation:conversation, user:userIds[i]})
+
+            const chat = Chat.create({ conversationId, userId: userIds[i] })
             await chat.save()
             console.log(chat)
         }
