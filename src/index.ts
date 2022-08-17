@@ -10,6 +10,7 @@ import messageRouter from './Routes/messages'
 
 import * as http from 'http';
 import { Server } from 'socket.io';
+import { Message } from './Entities/message';
 const app = express()
 
 const server = http.createServer(app)
@@ -21,18 +22,14 @@ const io = new Server(server,
     cors: {
       origin: ['http://localhost:3000'],
       allowedHeaders: ["my-custom-header"],
-      credentials: true
     }
   }
 )
 
-io.on('connection', socket => { 
-  console.log(`new connection with socket ${socket}`) 
-  socket.on('newMessage', (args)=> {
-  console.log(args),
-  socket.emit('sendMessage', args)
-}
-  )
+io.on('connection', socket => {
+  console.log(`new connection with socket`)
+  socket.on('newMessage', (args) =>
+    io.emit('sendMessage', { ...args, createdAt: Date.now() }))
 })
 
 
@@ -46,7 +43,7 @@ app.use(urlencoded({ extended: false }));
 
 
 app.use("/user", userRouter)
-app.use("/post", messageRouter)
+app.use("/messages", messageRouter)
 
 
 app.get("*", (req, res) => {
