@@ -30,6 +30,8 @@ io.on('connection', socket => {
   console.log(`new connection with socket`)
   socket.on('newMessage', (args) =>
     io.emit('sendMessage', { ...args, createdAt: Date.now() }))
+
+
 })
 
 
