@@ -28,9 +28,9 @@ const io = new Server(server,
 io.on('connection', socket => {
   console.log(`new connection with socket`)
   socket.on('newMessage', (args) =>
-    io.emit('sendMessage', { ...args, createdAt: Date.now() }))
+    socket.broadcast.emit('sendMessage', { ...args, createdAt: Date.now() }))
 
- // socket.to("room 1").emit("roomMessage", socket)
+  // socket.to("room 1").emit("roomMessage", socket)
 
 })
 

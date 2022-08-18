@@ -2,18 +2,17 @@ import { NextFunction, Request, Response } from "express";
 import Jwt from "jsonwebtoken";
 import { User } from "../Entities/user";
 
-export const meddleware = async (req: Request, res: Response, next: NextFunction) => {
 
+export const middleware2 = async (req: Request, res: Response, next: NextFunction) => {
   try {
-
-    const { token } = req.body
+    const { token } = req.headers as { token: string }
 
     if (token) {
 
-      const righToken = Jwt.verify(token, process.env.PRIVAT_KEY!)
+      const rightToken = Jwt.verify(token, process.env.PRIVATE_KEY!)
 
-      if (righToken) {
-        const { email } = righToken as { email: string }
+      if (rightToken) {
+        const { email } = rightToken as { email: string }
 
         console.log(email);
 
@@ -21,7 +20,6 @@ export const meddleware = async (req: Request, res: Response, next: NextFunction
         const user = await User.findOne({
           where: { email }, relations: { messages: true }
         })
-
 
         req.body.user = user
 

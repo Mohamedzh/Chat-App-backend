@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { meddleware } from "./meddleware";
+import { middleware2 } from "./middleware archive";
 import { Message } from "../Entities/message";
 import { User } from "../Entities/user";
 
@@ -33,7 +33,7 @@ router.get("/all", async (req, res) => {
 })
 
 
-router.post("/usermessages", meddleware, (req, res) => {
+router.post("/usermessages", middleware2, (req, res) => {
   try {
 
     res.send(req.body.user.messages)

@@ -8,6 +8,9 @@ export class Conversation extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
+    @Column()
+    title: string
+    
     @CreateDateColumn({ type: "timestamptz" })
     createdAt: Date;
 
@@ -20,8 +23,8 @@ export class Conversation extends BaseEntity {
     @OneToMany(() => Message, message => message.conversation)
     messages: Message[]
 
-    // @ManyToMany(() => User, (user) => user.conversations)
-    // users: User[]
+    @ManyToMany(() => User, (user) => user.conversations)
+    users: User[]
 
     @OneToMany(() => Chat, chat => chat.user)
     chats: Chat[]

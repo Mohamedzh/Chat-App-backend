@@ -1,11 +1,9 @@
 import { Router } from "express";
-import { meddleware } from "./meddleware";
+import { middleware2 } from "./middleware archive";
 import { Message } from "../Entities/message";
 import { User } from "../Entities/user";
 import { Conversation } from "../Entities/conversation"
-import { Chat } from "../Entities/chat";
-import { findAncestor } from "typescript";
-
+import { In } from "typeorm";
 
 const router = Router()
 
@@ -23,19 +21,31 @@ router.get("/", async (req, res) => {
 })
 
 //Create a new conversation
-router.post('/', async (req, res) => {
+router.post('/', middleware2, async (req, res) => {
     try {
-        const { userIds } = req.body
-        const conversation = Conversation.create()
+        const { userIds, title, user } = req.body
+        const users = await User.find({ where: { id: In([...userIds, user.id]) } })
+        const conversation = Conversation.create({ title, users })
         await conversation.save()
 
         const conversationId = conversation.id
-        for (let i = 0; i < userIds.length; i++) {
+        // for (let i = 0; i < userIds.length; i++) {
 
-            const chat = Chat.create({ conversationId, userId: userIds[i] })
-            await chat.save()
-            console.log(chat)
-        }
+        //     const chat = Chat.create({ conversation, userId: userIds[i] })
+        //     await chat.save()
+        //     console.log(chat)
+        // }
+        res.send(conversation)
+    } catch (error) {
+        res.status(500).send(error)
+    }
+})
+
+//Get conversation by id
+router.get('/:id', async (req, res) => {
+    try {
+        const conversationId = +req.params.id
+        const conversation = await Conversation.findOne({ where: { id: conversationId }, relations:{users:true, messages:true} })
         res.send(conversation)
     } catch (error) {
         res.status(500).send(error)

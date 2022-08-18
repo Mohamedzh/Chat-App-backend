@@ -8,12 +8,6 @@ export class Chat extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
-    userId: number
-
-    @Column()
-    conversationId: number
-
     @CreateDateColumn({ type: "timestamptz" })
     createdAt: Date;
 
