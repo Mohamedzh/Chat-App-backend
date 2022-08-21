@@ -13,7 +13,7 @@ const router = Router()
 
 router.get("/", async (req, res) => {
     try {
-        const conversations = await Conversation.find({ relations: { messages: { user: true } } })
+        const conversations = await Conversation.find({ relations: { messages: { user: true }, users:true } })
         res.send(conversations)
     } catch (error) {
         res.status(500).send(error)
@@ -29,12 +29,6 @@ router.post('/', middleware2, async (req, res) => {
         await conversation.save()
 
         const conversationId = conversation.id
-        // for (let i = 0; i < userIds.length; i++) {
-
-        //     const chat = Chat.create({ conversation, userId: userIds[i] })
-        //     await chat.save()
-        //     console.log(chat)
-        // }
         res.send(conversation)
     } catch (error) {
         res.status(500).send(error)
@@ -45,7 +39,7 @@ router.post('/', middleware2, async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const conversationId = +req.params.id
-        const conversation = await Conversation.findOne({ where: { id: conversationId }, relations:{users:true, messages:true} })
+        const conversation = await Conversation.findOne({ where: { id: conversationId }, relations: { users: true, messages: true } })
         res.send(conversation)
     } catch (error) {
         res.status(500).send(error)

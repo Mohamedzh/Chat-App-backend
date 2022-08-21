@@ -18,7 +18,7 @@ export const middleware2 = async (req: Request, res: Response, next: NextFunctio
 
 
         const user = await User.findOne({
-          where: { email }, relations: { messages: true }
+          where: { email }, relations: {conversations:true}
         })
 
         req.body.user = user

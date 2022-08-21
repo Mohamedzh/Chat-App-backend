@@ -28,7 +28,7 @@ router.post("/signup", async (req, res) => {
       return res.send(" Password should be more than 8 characters")
     }
     const hashedPassword = await bcrypt.hash(password, 15)
-    const token = jwt.sign({ email: email }, process.env.PRIVAT_KEY!, { expiresIn: '1d' })
+    const token = jwt.sign({ email: email }, process.env.PRIVATE_KEY!, { expiresIn: '1d' })
     const user = User.create({ firstName, lastName, email, password: hashedPassword })
     await user.save()
     res.send({ user, token })
@@ -66,11 +66,6 @@ router.post("/signin", async (req, res) => {
 //user already loggedIn and using the same token from local storage
 router.get("/signinwithtoken", middleware2, async (req, res) => {
   try {
-    // const { token } = req.body
-    // const { email } = jwt.verify(token, process.env.PRIVATE_KEY!) as {
-    //   email: string
-    // }
-    // const user = await User.findOne({ where: { email }, relations: { messages: true } })
     const {user} = req.body
     console.log(user);
     res.send(user)

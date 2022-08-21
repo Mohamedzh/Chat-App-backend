@@ -28,10 +28,18 @@ const io = new Server(server,
 io.on('connection', socket => {
   console.log(`new connection with socket`)
   socket.on('newMessage', (args) =>
-    socket.broadcast.emit('sendMessage', { ...args, createdAt: Date.now() }))
-
-  // socket.to("room 1").emit("roomMessage", socket)
-
+    io.emit('sendMessage', { ...args, createdAt: Date.now() }))
+  socket.on('join', (room) => {
+    console.log(`joined room ${room}`)
+    socket.join(room.toString());
+  })
+  socket.on('aMessage', (args) => {
+    for (let i = 0; i < args.userIds.length; i++) {
+      console.log(args.body)
+      let nums = args.userIds[i].toString()
+      io.to(nums).emit('aMessage', args.body)
+    }
+  })
 })
 
 
