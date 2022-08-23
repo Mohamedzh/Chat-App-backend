@@ -39,7 +39,7 @@ router.post('/', middleware2, async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const conversationId = +req.params.id
-        const conversation = await Conversation.findOne({ where: { id: conversationId }, relations: { users: true, messages: true } })
+        const conversation = await Conversation.findOne({ where: { id: conversationId }, relations: { users: true, messages: {user: true} } })
         res.send(conversation)
     } catch (error) {
         res.status(500).send(error)

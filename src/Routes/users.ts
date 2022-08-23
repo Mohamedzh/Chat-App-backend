@@ -67,7 +67,6 @@ router.post("/signin", async (req, res) => {
 router.get("/signinwithtoken", middleware2, async (req, res) => {
   try {
     const {user} = req.body
-    console.log(user);
     res.send(user)
   } catch (error) {
     res.status(500).send(error)

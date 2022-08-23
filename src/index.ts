@@ -10,6 +10,7 @@ import messageRouter from './Routes/messages'
 import conversationRouter from "./Routes/conversations"
 import * as http from 'http';
 import { Server } from 'socket.io';
+import { User } from './Entities/user';
 const app = express()
 
 const server = http.createServer(app)
@@ -33,11 +34,22 @@ io.on('connection', socket => {
     console.log(`joined room ${room}`)
     socket.join(room.toString());
   })
-  socket.on('aMessage', (args) => {
+  socket.on('aMessage', async (args) => {
     for (let i = 0; i < args.userIds.length; i++) {
       console.log(args.body)
-      let nums = args.userIds[i].toString()
-      io.to(nums).emit('aMessage', args.body)
+      io.to(args.userIds[i].toString())
+        .emit('aMessage', { user: { firstName: args.firstName }, body: args.body, createdAt: Date.now() }
+        )
+    }
+  })
+  //send 'typing' to all other users on main chat
+  socket.on('typing', (text)=>{
+    socket.broadcast.emit('typing', text)
+  })
+  //send 'user joined' to other users in the conversation
+  socket.on('userJoin', (text)=>{
+    for (let i = 0; i < text.ids.length; i++) {
+    io.to(text.ids[i].toString()).emit('joinMsg',text.data)
     }
   })
 })
