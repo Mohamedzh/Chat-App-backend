@@ -20,7 +20,7 @@ server.listen(3131, () => {
 const io = new Server(server,
   {
     cors: {
-      origin: ['http://localhost:3000', 'https://chat-app-backend-production.up.railway.app'],
+      origin: ['*.*'],
       allowedHeaders: ["my-custom-header"],
     }
   }
