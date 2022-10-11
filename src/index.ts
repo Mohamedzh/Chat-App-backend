@@ -14,7 +14,7 @@ import { User } from './Entities/user';
 const app = express()
 
 const server = http.createServer(app)
-server.listen(3131, () => {
+server.listen(3131, 0.0, () => {
   console.log('server is listening on port 3131')
 })
 const io = new Server(server,
@@ -54,8 +54,6 @@ io.on('connection', socket => {
   })
 })
 
-
-
 config();
 app.use(cors());
 app.use(morgan("dev"));
@@ -63,23 +61,17 @@ app.use(helmet());
 app.use(json());
 app.use(urlencoded({ extended: false }));
 
-
-
 app.use("/user", userRouter)
 app.use("/messages", messageRouter)
 app.use("/conversations", conversationRouter)
 
+// app.get("*", (req, res) => {
+//   res.status(404).json({
+//     msg: "Erorr 404"
+//   })
+// })
 
-
-app.get("*", (req, res) => {
-  res.status(404).json({
-    msg: "Erorr 404"
-  })
-})
-
-
-
-
+app.get('/', (req, res) => res.send('Chat app API'))
 
 app.listen(process.env.PORT, async () => {
   console.log(`listening on port ${process.env.PORT} `);
