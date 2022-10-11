@@ -20,7 +20,7 @@ server.listen(3131, () => {
 const io = new Server(server,
   {
     cors: {
-      origin: ['http://localhost:3000'],
+      origin: ['http://localhost:3000', 'https://chat-app-backend-production.up.railway.app'],
       allowedHeaders: ["my-custom-header"],
     }
   }
@@ -43,13 +43,13 @@ io.on('connection', socket => {
     }
   })
   //send 'typing' to all other users on main chat
-  socket.on('typing', (text)=>{
+  socket.on('typing', (text) => {
     socket.broadcast.emit('typing', text)
   })
   //send 'user joined' to other users in the conversation
-  socket.on('userJoin', (text)=>{
+  socket.on('userJoin', (text) => {
     for (let i = 0; i < text.ids.length; i++) {
-    io.to(text.ids[i].toString()).emit('joinMsg',text.data)
+      io.to(text.ids[i].toString()).emit('joinMsg', text.data)
     }
   })
 })
