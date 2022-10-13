@@ -28,11 +28,12 @@ router.post("/signup", async (req, res) => {
       return res.send(" Password should be more than 8 characters")
     }
     const hashedPassword = await bcrypt.hash(password, 15)
-    const token = jwt.sign({ email: email }, process.env.PRIVATE_KEY!, { expiresIn: '1d' })
+    const token = jwt.sign({ email }, process.env.PRIVATE_KEY!, { expiresIn: '1d' })
     const user = User.create({ firstName, lastName, email, password: hashedPassword })
     await user.save()
     res.send({ user, token })
-  } catch (error) {
+  }
+  catch (error) {
     res.status(500).send(error)
   }
 })
@@ -46,7 +47,6 @@ router.post("/signin", async (req, res) => {
     if (!user) {
       return res.send("User not found")
     }
-
     const compareResult = await bcrypt.compare(password, user.password)
     if (!compareResult) {
       return res.send("Password invalid")
@@ -66,7 +66,7 @@ router.post("/signin", async (req, res) => {
 //user already loggedIn and using the same token from local storage
 router.get("/signinwithtoken", middleware2, async (req, res) => {
   try {
-    const {user} = req.body
+    const { user } = req.body
     res.send(user)
   } catch (error) {
     res.status(500).send(error)
