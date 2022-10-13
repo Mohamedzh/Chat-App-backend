@@ -14,7 +14,7 @@ import { User } from './Entities/user';
 const app = express()
 
 const server = http.createServer(app)
-server.listen('0.0.0.0:3131', () => {
+server.listen('3131', () => {
   console.log('server is listening on port 3131')
 })
 const io = new Server(server,
