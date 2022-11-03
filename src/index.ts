@@ -11,17 +11,23 @@ import conversationRouter from "./Routes/conversations"
 import * as http from 'http';
 import { Server } from 'socket.io';
 import { User } from './Entities/user';
+
+
 const app = express()
 
+
+
+let port = 3131
 const server = http.createServer(app)
-server.listen('3131', () => {
-  console.log('server is listening on port 3131')
+server.listen(`${port}`, () => {
+  console.log(`server is listening on port ${port}`)
 })
 const io = new Server(server,
   {
     cors: {
-      origin: ['*'],
+      origin: ['http://localhost:3000', 'https://chat-app-sockets-2jdl.vercel.app'],
       allowedHeaders: ["my-custom-header"],
+      
     }
   }
 )
