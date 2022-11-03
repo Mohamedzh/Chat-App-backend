@@ -27,7 +27,8 @@ const io = new Server(server,
     cors: {
       origin: ['http://localhost:3000', 'https://chat-app-sockets-2jdl.vercel.app'],
       allowedHeaders: ["my-custom-header"],
-      
+      credentials: true,
+      methods: ['GET', 'POST', 'PATCH', 'DELETE']
     }
   }
 )
