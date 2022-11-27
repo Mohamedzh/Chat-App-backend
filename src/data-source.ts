@@ -13,10 +13,10 @@ config()
 export const AppDataSource = new DataSource({
   type: "postgres",
   host: process.env.PGHOST,
-  port: 5432,
-  username: process.env.postgres,
+  port: +process.env.PGPORT!,
+  username: process.env.PGUSER,
   password: process.env.PGPASSWORD,
-  database: "postgres",
+  database: process.env.PGDATABASE,
   synchronize: true,
   logging: false,
   entities: [User, Message, Conversation, Chat],
