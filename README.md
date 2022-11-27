@@ -26,9 +26,11 @@ API for [chat app](https://github.com/Mohamedzh/ChatApp) created using Express a
 * user verification through jwt and middleware
 
 ## Setup
-To run this project, install it locally using npm:
+To run this project:
+- Install it locally using npm:
 ```
 npm install
 npm run dev
 ```
+- Fill the database credentials in the .env file to connect it to a postgresql database
 

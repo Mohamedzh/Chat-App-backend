@@ -10,18 +10,16 @@ import messageRouter from './Routes/messages'
 import conversationRouter from "./Routes/conversations"
 import * as http from 'http';
 import { Server } from 'socket.io';
-import { User } from './Entities/user';
 
 
 const app = express()
 
 
-
-let port = 3131
+// let port = 3131
 const server = http.createServer(app)
-server.listen(`${port}`, () => {
-  console.log(`server is listening on port ${port}`)
-})
+// server.listen(`${port}`, () => {
+//   console.log(`server is listening on port ${port}`)
+// })
 const io = new Server(server,
   {
     cors: {
@@ -72,15 +70,15 @@ app.use("/user", userRouter)
 app.use("/messages", messageRouter)
 app.use("/conversations", conversationRouter)
 
-// app.get("*", (req, res) => {
-//   res.status(404).json({
-//     msg: "Erorr 404"
-//   })
-// })
-
 app.get('/', (req, res) => res.send('Chat app API'))
 
-app.listen(process.env.PORT, async () => {
+app.get("*", (req, res) => {
+  res.status(404).json({
+    msg: "Error 404"
+  })
+})
+
+server.listen(process.env.PORT, async () => {
   console.log(`listening on port ${process.env.PORT} `);
 
   try {
