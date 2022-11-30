@@ -14,21 +14,18 @@ export const middleware2 = async (req: Request, res: Response, next: NextFunctio
       if (rightToken) {
         const { email } = rightToken as { email: string }
 
-        console.log(email);
-
-
         const user = await User.findOne({
-          where: { email }, relations: {conversations:{users: true}}
+          where: { email }, relations: { conversations: { users: true } }
         })
 
-        req.body.user = user
+        req.body = { user }
 
 
       } else {
         return res.status(500).send("Token invalid")
       }
     } else {
-      return res.status(500).send("Token not found")
+      return res.status(404).send("Token not found")
     }
     next()
 

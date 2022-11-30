@@ -57,6 +57,12 @@ io.on('connection', socket => {
       io.to(text.ids[i].toString()).emit('joinMsg', text.data)
     }
   })
+
+  const createdMessage = (msg: string) => {
+    socket.broadcast.emit("newIncomingMessage", msg);
+  };
+
+  socket.on("createdMessage", createdMessage);
 })
 
 config();

@@ -45,17 +45,15 @@ router.post("/signin", async (req, res) => {
     const { email, password } = req.body
     const user = await User.findOne({ where: { email }, relations: { messages: true } })
     if (!user) {
-      return res.send("User not found")
+      return res.status(404).send("User not found")
     }
     const compareResult = await bcrypt.compare(password, user.password)
     if (!compareResult) {
-      return res.send("Password invalid")
+      return res.status(500).send("Password invalid")
     }
 
     const token = jwt.sign({ email: email }, process.env.PRIVATE_KEY!, { expiresIn: '1d' })
-    res.send({ user, token })
-
-    console.log(token);
+    res.status(200).send({ user, token })
 
   } catch (error) {
     res.status(500).send(error)
@@ -67,7 +65,7 @@ router.post("/signin", async (req, res) => {
 router.get("/signinwithtoken", middleware2, async (req, res) => {
   try {
     const { user } = req.body
-    res.send(user)
+    res.status(200).send(user)
   } catch (error) {
     res.status(500).send(error)
   }
