@@ -10,7 +10,8 @@ import messageRouter from './Routes/messages'
 import conversationRouter from "./Routes/conversations"
 import * as http from 'http';
 import { Server } from 'socket.io';
-
+import swaggerUi from 'swagger-ui-express'
+const swaggerFile = require('../swagger-output.json')
 
 const app = express()
 
@@ -23,7 +24,7 @@ const server = http.createServer(app)
 const io = new Server(server,
   {
     cors: {
-      origin: ['http://localhost:3000', 'https://chat-app-sockets-2jdl.vercel.app'],
+      origin: ['http://localhost:3000', 'https://chat-app-sockets-2jdl.vercel.app', 'http://localhost:8888'],
       allowedHeaders: ["my-custom-header"],
       credentials: true,
       methods: ['GET', 'POST', 'PATCH', 'DELETE']
@@ -76,7 +77,7 @@ app.use("/user", userRouter)
 app.use("/messages", messageRouter)
 app.use("/conversations", conversationRouter)
 
-app.get('/', (req, res) => res.send('Chat app API'))
+app.use('/', swaggerUi.serve, swaggerUi.setup(swaggerFile));
 
 app.get("*", (req, res) => {
   res.status(404).json({

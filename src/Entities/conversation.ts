@@ -1,32 +1,40 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, UpdateDateColumn, BaseEntity, ManyToOne, ManyToMany, OneToMany } from "typeorm"
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  CreateDateColumn,
+  UpdateDateColumn,
+  BaseEntity,
+  ManyToMany,
+  OneToMany,
+} from "typeorm";
 import { User } from "./user";
 import { Message } from "./message";
 import { Chat } from "./chat";
 
 @Entity()
 export class Conversation extends BaseEntity {
-    @PrimaryGeneratedColumn()
-    id: number;
+  @PrimaryGeneratedColumn()
+  id: number;
 
-    @Column()
-    title: string
-    
-    @CreateDateColumn({ type: "timestamptz" })
-    createdAt: Date;
+  @Column()
+  title: string;
 
-    @UpdateDateColumn({
-        type: "timestamptz",
-        onUpdate: "CURRENT_TIMESTAMPTZ"
-    })
-    updatedAt: Date;
+  @CreateDateColumn({ type: "timestamptz" })
+  createdAt: Date;
 
-    @OneToMany(() => Message, message => message.conversation)
-    messages: Message[]
+  @UpdateDateColumn({
+    type: "timestamptz",
+    onUpdate: "CURRENT_TIMESTAMPTZ",
+  })
+  updatedAt: Date;
 
-    @ManyToMany(() => User, (user) => user.conversations)
-    users: User[]
+  @OneToMany(() => Message, (message) => message.conversation)
+  messages: Message[];
 
-    @OneToMany(() => Chat, chat => chat.user)
-    chats: Chat[]
+  @ManyToMany(() => User, (user) => user.conversations)
+  users: User[];
+
+  @OneToMany(() => Chat, (chat) => chat.user)
+  chats: Chat[];
 }
-
