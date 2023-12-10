@@ -6,12 +6,12 @@ import { In } from "typeorm";
 
 const router = Router();
 
-/*
+router.get("/", async (req, res) => {
+  try {
+    /*
     #swagger.tags = ['Conversations']
     #swagger.summary = 'Get all conversations'
     */
-router.get("/", async (req, res) => {
-  try {
     const conversations = await Conversation.find({
       relations: { messages: { user: true }, users: true },
     });
@@ -21,15 +21,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-/*
+router.post("/", middleware2, async (req, res) => {
+  try {
+     /*
     #swagger.tags = ['Conversations']
     #swagger.summary = 'Post a new conversation'
     #swagger.parameters['userIds', 'title', 'user'] = {
         in: 'body',
     }
     */
-router.post("/", middleware2, async (req, res) => {
-  try {
     const { userIds, title, user } = req.body;
     const users = await User.find({ where: { id: In([...userIds, user.id]) } });
     const conversation = Conversation.create({ title, users });
@@ -42,7 +42,9 @@ router.post("/", middleware2, async (req, res) => {
   }
 });
 
-/*
+router.get("/:id", async (req, res) => {
+  try {
+     /*
     #swagger.tags = ['Conversations']
     #swagger.summary = 'Get a conversation by id'
     #swagger.parameters['id'] = {
@@ -50,8 +52,6 @@ router.post("/", middleware2, async (req, res) => {
         description: 'The id of the conversation' 
     }
     */
-router.get("/:id", async (req, res) => {
-  try {
     const conversationId = +req.params.id;
     const conversation = await Conversation.findOne({
       where: { id: conversationId },

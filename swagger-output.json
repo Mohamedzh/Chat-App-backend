@@ -11,18 +11,12 @@
     "https"
   ],
   "paths": {
-    "/": {
-      "get": {
-        "description": "",
-        "responses": {
-          "200": {
-            "description": "OK"
-          }
-        }
-      }
-    },
     "/user/": {
       "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Get all users",
         "description": "",
         "responses": {
           "200": {
@@ -33,10 +27,14 @@
     },
     "/user/signup": {
       "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Create a new user",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "firstName, lastName, email, password",
             "in": "body",
             "schema": {
               "type": "object",
@@ -69,10 +67,14 @@
     },
     "/user/signin": {
       "post": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Login",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "email, password",
             "in": "body",
             "schema": {
               "type": "object",
@@ -102,6 +104,10 @@
     },
     "/user/signinwithtoken": {
       "get": {
+        "tags": [
+          "Users"
+        ],
+        "summary": "Verify logged-in user",
         "description": "",
         "responses": {
           "200": {
@@ -115,10 +121,14 @@
     },
     "/messages/": {
       "post": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Post a new message",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "id, body, conversation",
             "in": "body",
             "schema": {
               "type": "object",
@@ -148,6 +158,10 @@
     },
     "/messages/all": {
       "get": {
+        "tags": [
+          "Messages"
+        ],
+        "summary": "Get all messages",
         "description": "",
         "responses": {
           "200": {
@@ -161,6 +175,9 @@
     },
     "/messages/usermessages": {
       "post": {
+        "tags": [
+          "Messages"
+        ],
         "description": "",
         "parameters": [
           {
@@ -188,6 +205,10 @@
     },
     "/conversations/": {
       "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Get all conversations",
         "description": "",
         "responses": {
           "200": {
@@ -199,10 +220,14 @@
         }
       },
       "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Post a new conversation",
         "description": "",
         "parameters": [
           {
-            "name": "body",
+            "name": "userIds, title, user",
             "in": "body",
             "schema": {
               "type": "object",
@@ -232,13 +257,18 @@
     },
     "/conversations/{id}": {
       "get": {
+        "tags": [
+          "Conversations"
+        ],
+        "summary": "Get a conversation by id",
         "description": "",
         "parameters": [
           {
             "name": "id",
             "in": "path",
             "required": true,
-            "type": "string"
+            "type": "string",
+            "description": "The id of the conversation"
           }
         ],
         "responses": {

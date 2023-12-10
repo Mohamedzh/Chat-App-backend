@@ -6,12 +6,12 @@ import { middleware2 } from "./middleware archive";
 
 const router = Router();
 
-/*
+router.get("/", async (req, res) => {
+  try {
+     /*
     #swagger.tags = ['Users']
     #swagger.summary = 'Get all users'
     */
-router.get("/", async (req, res) => {
-  try {
     const users = await User.find();
     res.send(users);
   } catch (error) {
@@ -19,15 +19,15 @@ router.get("/", async (req, res) => {
   }
 });
 
-/*
+router.post("/signup", async (req, res) => {
+  try {
+      /*
     #swagger.tags = ['Users']
     #swagger.summary = 'Create a new user'
     #swagger.parameters['firstName', 'lastName', 'email', 'password'] = {
       in: 'body',
     }
     */
-router.post("/signup", async (req, res) => {
-  try {
     const { firstName, lastName, email, password } = req.body;
     if (password.length < 8) {
       return res.send(" Password should be more than 8 characters");
@@ -49,15 +49,15 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-/*
+router.post("/signin", async (req, res) => {
+  try {
+      /*
     #swagger.tags = ['Users']
     #swagger.summary = 'Login'
     #swagger.parameters['email', 'password'] = {
       in: 'body',
     }
     */
-router.post("/signin", async (req, res) => {
-  try {
     const { email, password } = req.body;
     const user = await User.findOne({
       where: { email },
@@ -80,12 +80,12 @@ router.post("/signin", async (req, res) => {
   }
 });
 
-/*
+router.get("/signinwithtoken", middleware2, async (req, res) => {
+  try {
+     /*
     #swagger.tags = ['Users']
     #swagger.summary = 'Verify logged-in user's token'
     */
-router.get("/signinwithtoken", middleware2, async (req, res) => {
-  try {
     const { user } = req.body;
     res.status(200).send(user);
   } catch (error) {
